@@ -1,7 +1,7 @@
 #multithreaded structure runs
 setwd("/Users/cj/Dropbox/structure_simulations/")
 library(foreach);library(doMC);library(data.table)
-registerDoMC(cores=8)
+registerDoMC(cores=8) 
 
 #set options and file paths here (use full file paths. no ~ or .)
 reps <- 1 #number of independent analyses per input file
@@ -50,4 +50,7 @@ for(i in files){
 #run in parallel
 foreach(i=structure_commands) %dopar% system(i)
 
-
+###NOTE: Trying to stop foreach after hitting go usually causes R to crash and the structure threads
+#to continue running indefinitely in the background. If you have to stop and restart an analysis, 
+#I recommend force-quitting rstudio and manually shutting down any stray threads in terminal with
+#the commands "killall structure" and "killall rsession". 
