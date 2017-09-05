@@ -5,6 +5,7 @@ registerDoMC(cores=8)
 
 #set options and file paths here (use full file paths. no ~ or .)
 reps <- 1 #number of independent analyses per input file
+pop.info <- T #is there a column for population assignments in the structure input file? 
 structure_path <- "/Applications/structure/structure"
 mainparams_path <- "/Users/cj/Dropbox/structure_simulations/str_params/k2/mainparams.txt"
 extraparams_path <- "/Users/cj/Dropbox/structure_simulations/str_params/k2/extraparams.txt"
@@ -18,8 +19,8 @@ files <- grep(".str",files,value = T)
 files <- grep("maf",files,value = T)
 n_loci <- c()
 for(i in files){
-  tmp <- fread(paste0(str_in,i)) #can use fread() for significant speed increase if str files don't have extra whitespace columns
-  n_loci <- append(n_loci,ncol(tmp)-2) #-1 if no pop info, -2 if pop info present.
+  tmp <- read.table(paste0(str_in,i)) #can use fread() for significant speed increase if str files don't have extra whitespace columns
+  n_loci <- append(n_loci,ncol(tmp)-(1+pop.info))
 }
 names(n_loci) <- files
 
